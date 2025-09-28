@@ -24,6 +24,13 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+        [
+      "expo-location", {
+        "LocationAlwaysAndWhenInUsePermission": "Allow MyWeatherApp to use your location."
+      }
+        ]
+    ]
   }
 }
