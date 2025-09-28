@@ -32,9 +32,8 @@ const HomeScreen = () => {
 
       {errorMsg && <Text style={styles.error}>{errorMsg}</Text>}
 
-      {/*{locationString && <ForecastCard location={locationString} />}*/}
-      {locationString && <WeatherCard location={locationString} 
-      />}
+      {locationString && <ForecastCard location={locationString} />}
+      {locationString && <WeatherCard location={locationString} />}
     </View>
   );
 };
