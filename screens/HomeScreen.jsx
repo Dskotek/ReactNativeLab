@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import useLocation from "../hooks/uselocation";
 import WeatherCard from "../components/weatherCard";
 import ForecastCard from "../components/forecastCard";
@@ -7,6 +8,7 @@ import ForecastCard from "../components/forecastCard";
 const HomeScreen = () => {
   const { getLocation, errorMsg } = useLocation();
   const [coords, setCoords] = useState(null);
+  const [viewMode, setViewMode] = useState("weather");
 
   const handleGetWeather = async () => {
     const locationCoords = await getLocation();
@@ -24,17 +26,32 @@ const HomeScreen = () => {
   const locationString = coords ? `${coords.latitude},${coords.longitude}` : null;
 
   return (
+    <SafeAreaProvider>
+    <SafeAreaView style={{flex: 1}}>
     <View style={styles.container}>
       <Text style={styles.header}>EasyWeather</Text>
+      {locationString == null ? (
       <TouchableOpacity style={styles.btn} onPress={handleGetWeather}>
         <Text style={styles.btnText}>Hämta väder</Text>
       </TouchableOpacity>
-
+      ) : viewMode == "weather" ? (
+      <TouchableOpacity style={styles.btn} onPress={() => setViewMode("forecast")}>
+        <Text style={styles.btnText}>Visa 3 dagars prognos</Text>
+      </TouchableOpacity> 
+      ) : (
+      <TouchableOpacity style={styles.btn} onPress={() => setViewMode("weather")}>
+        <Text style={styles.btnText}>Visa dagens väder</Text>
+      </TouchableOpacity>
+    )}
       {errorMsg && <Text style={styles.error}>{errorMsg}</Text>}
 
-      {locationString && <ForecastCard location={locationString} />}
-      {locationString && <WeatherCard location={locationString} />}
+
+      {locationString && viewMode === "weather" && (<WeatherCard location={locationString} />)}
+      {locationString && viewMode === "forecast" && (<ForecastCard location={locationString} />)}
+      
     </View>
+    </SafeAreaView>
+    </SafeAreaProvider>
   );
 };
 
@@ -44,13 +61,17 @@ const styles = StyleSheet.create({
   container: { 
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
-    padding: 20 
+   // justifyContent: "center",
+    padding: 0,
+    width: "100%",
+        height: "100%",
+        backgroundColor: "lightyellow",
 },
   header: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 20, 
+    marginTop: 10,
     paddingTop: 50, 
     marginHorizontal: 20 
 },
@@ -60,10 +81,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 20 },
 
   btn: { 
-    backgroundColor: "blue", 
+    backgroundColor: "darkblue", 
     padding: 10, 
     borderRadius: 50, 
-    marginHorizontal: 50 
+    marginHorizontal: 50,
+    
 },
   btnText: { 
     color: "white", 

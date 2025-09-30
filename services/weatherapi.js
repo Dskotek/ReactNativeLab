@@ -1,5 +1,5 @@
 
-const API_KEY = "";
+const API_KEY = "bf6bb28604d2421fb92101351252509";
 const WEATHER_API_URL = "http://api.weatherapi.com/v1";
 
 export const getWeather = async (location) => {
