@@ -34,14 +34,19 @@ const WeatherCard = ({ location }) => {
 
   return (
     <View style={[styles.card, {backgroundColor: tempColor(weather.current.temp_c) }]}>
-        <Text>Dagens väder</Text>
+        <Text>Dagens väder i</Text>
+        <Text style={styles.city}>{weather.location.name}</Text>
+        
         <Image
         source={{ uri: "https:" + weather.current.condition.icon }}
-        style={{ width: 64, height: 64 }}
+        style={styles.icon}
         />
-        <Text style={styles.city}>{weather.location.name}</Text>
-        <Text style={styles.temp}>{weather.current.temp_c}°C</Text>
         <Text style={styles.condition}>{weather.current.condition.text}</Text>
+        <Text style={styles.temp}>{weather.current.temp_c}°C</Text>
+        <Text style={styles.txt}>Känns som: {weather.current.feelslike_c}°C</Text>
+        <Text style={styles.txt}>Luftfuktighet {weather.current.humidity}%</Text>
+        <Text style={styles.txt}>Senast uppdaterad: {'\n'}{weather.current.last_updated}</Text>
+        
       
     </View>
   );
@@ -60,6 +65,8 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 5, height: 10 }, // skuggans position
     shadowOpacity: 0.1, // transparens
     shadowRadius: 5, // spridning
+    width: "80%",
+    height: "40%",
   },
   city: { 
     fontSize: 20, 
@@ -74,4 +81,12 @@ const styles = StyleSheet.create({
     fontSize: 16, 
     color: "gray" 
   },
+  icon: {
+        width: 64,
+        height: 64,
+    },
+    txt: {
+        fontSize: 16,
+        fontStyle: "italic"
+    }
 });

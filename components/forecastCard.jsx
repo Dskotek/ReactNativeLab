@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, ActivityIndicator, StyleSheet} from "react-native";
+import { View, Text, Image, ActivityIndicator, StyleSheet, ScrollView, TouchableOpacity} from "react-native";
 import { getForecast } from "../services/weatherapi";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 const tempColor = (temp) => {
@@ -9,6 +9,32 @@ const tempColor = (temp) => {
 };
 
 const ForecastCard = ({ location }) => {
+
+    const weekday = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("sv-SE", { weekday: "long" });
+};
+
+const [expandedDay, setExpandedDay] = useState(null);
+
+const toggleExpand = (date) => {
+    setExpandedDay(expandedDay === date ? null : date);
+};
+
+const kphToMs = (kph) => (kph / 3.6).toFixed(1);
+
+const months = ["januari", "februari", "mars", 
+    "april", "maj", "juni", 
+    "juli", "augusti", "september", 
+    "oktober", "november", "december"
+];
+
+const formatDate = (dateString) => {
+    const day = parseInt(dateString.slice(8, 10), 10);
+    const month = parseInt(dateString.slice(5, 7), 10);
+    return `${day} ${months[month - 1]}`;
+}
+
   const [forecast, setForecast] = useState(null);
   const [loading, setLoading] = useState(true); 
 
@@ -37,21 +63,47 @@ const ForecastCard = ({ location }) => {
     <View style={styles.container}>
         <Text style={styles.header}>3 dagars prognos för {forecast.location.name} </Text>
 
+        <ScrollView>
         {forecast.forecast.forecastday.map((day) => (
             <View style={[styles.itemContainer, {backgroundColor: tempColor(day.day.avgtemp_c)}]}
              key={day.date}>
+                <Text style={styles.txtDay}>
+                {weekday(day.date).charAt(0).toUpperCase() + weekday(day.date).slice(1)} 
+                </Text>
+                <Text style={styles.txtDate}>{formatDate(day.date)}</Text>
+                <Text style={styles.txtTemp}>{day.day.avgtemp_c} °C</Text>
                 <Image
                         source={{ uri: "https:" + day.day.condition.icon }}
                         style={styles.icon}
                         />
-                <View style={styles.txtContainer}>
-                    <Text style={styles.txt}>Datum: {day.date}</Text>
-                    <Text style={styles.txt}>{day.day.condition.text}</Text>
-                    <Text style={styles.txt}>Medeltemperatur: {day.day.avgtemp_c} °C</Text>
-                </View>
+                        
+                <Text style={styles.txt}>{day.day.condition.text}</Text>
+                        <View style={styles.showMoreBtnContainer}>
+                        <TouchableOpacity style={styles.showMoreBtn} onPress={() => 
+                        toggleExpand(day.date)}>
+                            <Text style={styles.showMoreTxt}>
+                                {expandedDay === day.date ? "Visa mindre ↑" : "Visa mer ↓"}
+                            </Text>
+                        </TouchableOpacity>
+                        </View>
+
+
+                        {expandedDay === day.date && (
+                    <View style={styles.showMoreContainer}>
+                        <Text style={styles.txt}>Högsta temperatur 🌡ꜛ: {day.day.maxtemp_c}°C</Text>
+                        <Text style={styles.txt}>Lägsta temperatur 🌡ꜜ: {day.day.mintemp_c}°C</Text>
+                        <Text style={styles.txt}>Nederbörd 💧: {day.day.totalprecip_mm} mm</Text>
+                        <Text style={styles.txt}>Vind 🌬️: {kphToMs (day.day.maxwind_kph)} m/s</Text>
+                        <Text style={styles.txt}>UV-index ☀️: {day.day.uv}</Text>
+                    
+
+                    </View>
+                )}
                 
                 </View>
+                
         ))}
+        </ScrollView>
     </View>
     </SafeAreaView>
     </SafeAreaProvider>
@@ -79,6 +131,8 @@ const styles = StyleSheet.create({
         padding: 10,
         margin: 5,
         width: 300,
+        flexDirection: "column",
+        justifyContent: "center",
         borderRadius: 25,
         shadowColor: "#000",
         shadowOffset: { width: 5, height: 10 }, 
@@ -97,8 +151,37 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontStyle: "italic"
     },
+    txtDay:{
+        marginTop: 3,
+        fontSize: 20,
+        fontStyle: "italic",
+        fontWeight: "bold"
+    },
+    txtDate: {
+        fontSize: 16,
+        marginBottom: 10
+    },
+    txtTemp: {
+        fontSize: 18,
+        fontWeight: "bold"
+    },
     icon: {
         width: 64,
         height: 64,
-    }
+    },
+    showMoreBtnContainer: {
+        marginTop: "15",
+        alignItems: "flex-end",
+        marginLeft: 185
+    },
+    showMoreBtn: {
+        backgroundColor: "lightgray",
+        opacity: 0.7
+    },
+    
+    showMoreTxt: {
+        color: "blue"
+    },
+    showMoreContainer: {}
+
 });
