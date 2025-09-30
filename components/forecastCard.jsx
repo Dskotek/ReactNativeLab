@@ -57,7 +57,7 @@ const ForecastCard = ({ location }) => {
   useEffect(() => {
     const fetchForecast = async () => {
       try {
-        const data = await getForecast(location, 3);
+        const data = await getForecast(location, 4);
         setForecast(data);
       } catch (err) {
         console.error(err);
@@ -79,10 +79,10 @@ const ForecastCard = ({ location }) => {
       <SafeAreaView style={{ flex: 1 }}>
         <View style={styles.container}>
           <Text style={styles.header}>
-            3 dagars prognos för {forecast.location.name}{" "}
+            Väderprognos för {forecast.location.name}{" "}
           </Text>
 
-          {forecast.forecast.forecastday.map((day) => (
+          {forecast.forecast.forecastday.slice(1).map((day) => (
             <View
               style={[
                 styles.itemContainer,
@@ -117,19 +117,15 @@ const ForecastCard = ({ location }) => {
 
               {expandedDays.includes(day.date) && (
                 <View style={styles.showMoreContainer}>
-                  <Text style={styles.txt}>
-                    Högsta temperatur 🌡ꜛ: {day.day.maxtemp_c}°C
+                  <Text style={styles.txt}>🌡ꜛHögsta temperatur: {day.day.maxtemp_c}°C   
                   </Text>
-                  <Text style={styles.txt}>
-                    Lägsta temperatur 🌡ꜜ: {day.day.mintemp_c}°C
+                  <Text style={styles.txt}>🌡ꜜLägsta temperatur: {day.day.mintemp_c}°C   
                   </Text>
-                  <Text style={styles.txt}>
-                    Nederbörd 💧: {day.day.totalprecip_mm} mm
+                  <Text style={styles.txt}>💧Nederbörd: {day.day.totalprecip_mm} mm 
                   </Text>
-                  <Text style={styles.txt}>
-                    Vind 🌬️: {kphToMs(day.day.maxwind_kph)} m/s
+                  <Text style={styles.txt}>🌬️Vind: {kphToMs(day.day.maxwind_kph)} m/s 
                   </Text>
-                  <Text style={styles.txt}>UV-index ☀️: {day.day.uv}</Text>
+                  <Text style={styles.txt}>☀️UV-index: {day.day.uv}  </Text>
                 </View>
               )}
             </View>
@@ -177,6 +173,7 @@ const styles = StyleSheet.create({
   txt: {
     fontSize: 16,
     fontStyle: "italic",
+    textAlign: "center"
   },
   txtDay: {
     marginTop: 3,

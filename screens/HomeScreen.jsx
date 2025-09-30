@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import useLocation from "../hooks/uselocation";
 import WeatherCard from "../components/weatherCard";
@@ -33,7 +33,9 @@ const HomeScreen = () => {
       <SafeAreaView style={{ flex: 1 }}>
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <View style={styles.container}>
-            <Text style={styles.header}>EasyWeather</Text>
+            {/*<Text style={styles.header}>EasyWeather</Text>*/}
+            <Image source={require('../assets/vecteezy_drought-png-graphic-clipart-design_23258264.png')}
+            style={{width: "50%", height: "190", marginBottom: 10, marginTop: 5}}></Image>
             {locationString == null ? (
               <TouchableOpacity style={styles.btn} onPress={handleGetWeather}>
                 <Text style={styles.btnText}>Hämta väder</Text>
@@ -43,7 +45,7 @@ const HomeScreen = () => {
                 style={styles.btn}
                 onPress={() => setViewMode("forecast")}
               >
-                <Text style={styles.btnText}>Visa 3 dagars prognos</Text>
+                <Text style={styles.btnText}>Visa väderprognos</Text>
               </TouchableOpacity>
             ) : (
               <TouchableOpacity

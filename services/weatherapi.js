@@ -21,7 +21,7 @@ export const getWeather = async (location) => {
 export const getForecast = async (location) => {
     try {
       const result = await fetch(
-        `${WEATHER_API_URL}/forecast.json?key=${API_KEY}&q=${location}&days=3&lang=sv`
+        `${WEATHER_API_URL}/forecast.json?key=${API_KEY}&q=${location}&days=4&lang=sv`
       );
         if (!result.ok) {
             throw new Error("Kunde inte hämta väderdata");
