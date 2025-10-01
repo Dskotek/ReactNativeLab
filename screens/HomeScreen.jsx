@@ -34,8 +34,15 @@ const HomeScreen = () => {
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <View style={styles.container}>
             {/*<Text style={styles.header}>EasyWeather</Text>*/}
-            <Image source={require('../assets/vecteezy_drought-png-graphic-clipart-design_23258264.png')}
-            style={{width: "50%", height: "22%", marginBottom: "4%", marginTop: "2%"}}></Image>
+            <Image
+              source={require("../assets/vecteezy_drought-png-graphic-clipart-design_23258264.png")}
+              style={{
+                width: 208,
+                height: 203,
+                marginBottom: "4%",
+                marginTop: "3%",
+              }}
+            ></Image>
             {locationString == null ? (
               <TouchableOpacity style={styles.btn} onPress={handleGetWeather}>
                 <Text style={styles.btnText}>Hämta väder</Text>
@@ -77,7 +84,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     // justifyContent: "center",
-    padding: 0,
+    paddingTop: 0,
     width: "100%",
     height: "100%",
     backgroundColor: "lightyellow",
