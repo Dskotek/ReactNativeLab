@@ -35,7 +35,7 @@ const HomeScreen = () => {
           <View style={styles.container}>
             {/*<Text style={styles.header}>EasyWeather</Text>*/}
             <Image source={require('../assets/vecteezy_drought-png-graphic-clipart-design_23258264.png')}
-            style={{width: "50%", height: "190", marginBottom: 10, marginTop: 5}}></Image>
+            style={{width: "50%", height: "22%", marginBottom: "4%", marginTop: "2%"}}></Image>
             {locationString == null ? (
               <TouchableOpacity style={styles.btn} onPress={handleGetWeather}>
                 <Text style={styles.btnText}>Hämta väder</Text>

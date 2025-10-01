@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1, // transparens
     shadowRadius: 5, // spridning
     width: "80%",
-    height: "45%"
+    height: "48%"
   },
   city: { 
     fontSize: 20, 

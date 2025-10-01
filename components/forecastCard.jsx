@@ -109,8 +109,8 @@ const ForecastCard = ({ location }) => {
                 >
                   <Text style={styles.showMoreTxt}>
                     {expandedDays.includes(day.date)
-                      ? "Visa mindre ↑"
-                      : "Visa mer ↓"}
+                      ? "Visa mindre △"
+                      : "Visa mer ▽"}
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -199,7 +199,6 @@ const styles = StyleSheet.create({
     marginLeft: 185,
   },
   showMoreBtn: {
-    backgroundColor: "lightgray",
     opacity: 0.7,
   },
 
